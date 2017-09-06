@@ -163,7 +163,7 @@ public class BasicGolFrame extends JFrame implements ActionListener {
     cellLook.setVisible(true);
     //Cell settings
     cellSettings.setLook(cellLook);
-    cellSettings.setMaxAge(10);
+    cellSettings.setMaxAge(20);
     cellSettings.setRules(new CellRules());
     //Cells
     cells.setCellFac(new BasicCellFactory());
