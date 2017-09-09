@@ -1,9 +1,7 @@
 
 package wg.gol;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  * A class that represents the circle shape.

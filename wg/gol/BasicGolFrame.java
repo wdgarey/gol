@@ -119,8 +119,9 @@ public class BasicGolFrame extends JFrame implements ActionListener {
   public void initialize() {
     this.setTitle("Game of Life");
     this.setSize(1024, 768);
-				Shape cellLookShape = new OvalShape();				
+				Shape cellLookShape = new OvalShape();
 				//Shape cellLookShape = new RectangleShape();
+				//RectangleShape3D cellLookShape = new RectangleShape3D();
     BasicAppearance cellLook = new BasicAppearanceSizeDecorator(new BasicAppearanceLegendDecorator(new BasicAppearance()));
     BasicCellGrid cells = new BasicCellGrid();
     BasicCellSettings cellSettings = new BasicCellSettings();
@@ -159,7 +160,8 @@ public class BasicGolFrame extends JFrame implements ActionListener {
     updateTmr.setRepeats(true);
     this.setUpdateTmr(updateTmr);
     //Cell appearance
-				cellLookShape.setFill(false);
+				cellLookShape.setFill(true);
+				//cellLookShape.setRaised(true);
     cellLook.setBaseColor(Color.BLUE);
     cellLook.setLocation(new Point(0, 0));
     cellLook.setMaxSize(new Dimension(10, 10));
