@@ -104,9 +104,8 @@ public abstract class BasicShape implements Shape {
 				int height = size.height;
 				if (this.isFilled()) {
 						this.fill(g, x, y, width, height);
-				} else {
-						this.outline(g, x, y, width, height);
 				}
+				this.outline(g, x, y, width, height);
 		}
 		/**
 			* Draws the filled-in shape.
