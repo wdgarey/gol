@@ -53,6 +53,14 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   public Dimension getMaxSize() {
     return this.getSubj().getMaxSize();
   }
+		/**
+			* Gets the shape of the appearance.
+			* @return The shape.
+			*/
+		@Override
+		public Shape getShape() {
+				return this.getSubj().getShape();
+		}
   /**
    * Gest the size of the appearance.
    * @return The size.
@@ -109,6 +117,14 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   protected void setSize(Dimension size) {
     this.getSubj().setSize(size);
   }
+		/**
+			* Sets the shape of the appearance.
+			* @param shape The shape.
+			*/
+		@Override
+		public void setShape(Shape shape) {
+				this.getSubj().setShape(shape); //To change body of generated methods, choose Tools | Templates.
+		}
   /**
    * Sets the flag that indicates if this appearance is visible.
    * @param visible The flag.

@@ -76,12 +76,19 @@ public class BasicAppearanceLegendDecorator extends BasicAppearanceDecorator {
    */
   @Override
   public BasicAppearanceLegendDecorator copy() {
-    BasicAppearance mySubj = this.getSubj();
-    BasicAppearance theirSubj = mySubj.copy();
     BasicAppearanceLegendDecorator clone = new BasicAppearanceLegendDecorator();
-    clone.setSubj(theirSubj);
+				clone.copy(this);
     return clone;
   }
+		/**
+			* Copies the attributes of the given decorator.
+			* @param decorator The decorator to copy.
+			*/
+		protected void copy(BasicAppearanceLegendDecorator decorator) {
+				BasicAppearance theirSubj = decorator.getSubj();
+				BasicAppearance mySubj = theirSubj.copy();
+				this.setSubj(mySubj);
+		}
   /**
    * Updates the appearance based on the cell.
    * @param cell The cell to base the appearance off of.

@@ -19,18 +19,22 @@ public class BasicAppearance implements Appearance {
    * The color of the appearance.
    */
   private Color mColor;
-  /**
-   * The location of the appearance.
-   */
-  private Point mLocation;
+		/**
+			* The location of the appearance.
+			*/
+		private Point mLocation;
   /**
    * The maximum size that the cell can be.
    */
   private Dimension mMaxSize;
-  /**
-   * The size of the appearance.
-   */
-  private Dimension mSize;
+		/**
+			* The shape of the basic appearance.
+			*/
+		private Shape mShape;
+		/**
+			* The size of the appearance.
+			*/
+		private Dimension mSize;
   /**
    * The flag that indicates if this appearance is visible.
    */
@@ -49,13 +53,13 @@ public class BasicAppearance implements Appearance {
   protected Color getColor() {
     return this.mColor;
   }
-  /**
-   * Gets the location of the appearance.
-   * @return The location.
-   */
-  public Point getLocation() {
-    return this.mLocation;
-  }
+		/**
+			* Gets the location of the appearance.
+			* @return The location.
+			*/
+		protected Point getLocation() {
+				return this.mLocation;
+		}
   /**
    * Gets the maximum size of the cell.
    * @return The maximum size.
@@ -63,13 +67,20 @@ public class BasicAppearance implements Appearance {
   public Dimension getMaxSize() {
     return this.mMaxSize;
   }
-  /**
-   * Gest the size of the appearance.
-   * @return The size.
-   */
-  protected Dimension getSize() {
-    return this.mSize;
-  }
+		/**
+			* Gets the shape of the appearance.
+			* @return The shape.
+			*/
+		public Shape getShape() {
+				return this.mShape;
+		}
+		/**
+			* Gets the size of the appearance.
+			* @return The size.
+			*/
+		protected Dimension getSize() {
+				return this.mSize;
+		}
   /**
    * Gets the flag that indicates if this appearance is visible.
    * @return The flag.
@@ -91,13 +102,13 @@ public class BasicAppearance implements Appearance {
   protected void setColor(Color color) {
     this.mColor = color;
   }
-  /**
-   * Sets the location of the appearance.
-   * @param location The location.
-   */
-  public void setLocation(Point location) {
-    this.mLocation = location;
-  }
+		/**
+			* Sets the location of the appearance.
+			* @param location The location.
+			*/
+		protected void setLocation(Point location) {
+				this.mLocation = location;
+		}
   /**
    * Sets the maximum size.
    * @param maxSize The maximum size.
@@ -106,12 +117,19 @@ public class BasicAppearance implements Appearance {
     this.mMaxSize = maxSize;
   }
   /**
-   * Sets the size.
-   * @param size The size.
+   * Sets the shape.
+   * @param shape The shape.
    */
-  protected void setSize(Dimension size) {
-    this.mSize = size;
+  public void setShape(Shape shape) {
+    this.mShape = shape;
   }
+		/**
+			* Sets the size of the appearance.
+			* @param size The size.
+			*/
+		protected void setSize(Dimension size) {
+				this.mSize = size;
+		}
   /**
    * Sets the flag that indicates if this appearance is visible.
    * @param visible The flag.
@@ -126,9 +144,10 @@ public class BasicAppearance implements Appearance {
   public BasicAppearance(){
     this.mBaseColor = Color.BLUE;
     this.mColor = Color.BLUE;
-    this.mLocation = null;
-    this.mMaxSize = null;
-    this.mSize = new Dimension(0, 0);
+				this.mLocation = new Point();
+    this.mMaxSize = new Dimension();
+				this.mShape = new OvalShape();
+				this.mSize = new Dimension();
     this.mVisible = true;
   }
   /**
@@ -137,32 +156,42 @@ public class BasicAppearance implements Appearance {
    */
   @Override
   public BasicAppearance copy() {
-    Point myLocation = this.getLocation();
-    Color myBaseColor = this.getBaseColor();
-    Color myColor = this.getColor();
-    Dimension mySize = this.getSize();
-    Dimension myMaxSize = this.getMaxSize();
-    Color theirColor = new Color(myColor.getRed(),
-            myColor.getGreen(),
-            myColor.getBlue(),
-            myColor.getAlpha());
-    boolean theirVisible = this.getVisible();
-    Point theirLocation = new Point(myLocation);
-    Color theirBaseColor = new Color(myBaseColor.getRed(),
-            myBaseColor.getGreen(),
-            myBaseColor.getBlue(),
-            myBaseColor.getAlpha());
-    Dimension theirSize = new Dimension(mySize);
-    Dimension theirMaxSize = new Dimension(myMaxSize);
     BasicAppearance clone = new BasicAppearance();
-    clone.setBaseColor(theirBaseColor);
-    clone.setColor(theirColor);
-    clone.setLocation(theirLocation);
-    clone.setMaxSize(theirMaxSize);
-    clone.setSize(theirSize);
-    clone.setVisible(theirVisible);
+				clone.copy(this);
     return clone;
   }
+		/**
+			* Copies the attributes of another basic appearance.
+			* @param appearance The basic appearance.
+			*/
+		protected void copy(BasicAppearance appearance) {
+    Color theirBaseColor = appearance.getBaseColor();
+    Color theirColor = appearance.getColor();
+				Point theirLocation = appearance.getLocation();
+    Dimension theirMaxSize = appearance.getMaxSize();
+				Shape theirShape = appearance.getShape();
+				Dimension theirSize = appearance.getSize();
+    Color myColor = new Color(theirColor.getRed(),
+            theirColor.getGreen(),
+            theirColor.getBlue(),
+            theirColor.getAlpha());
+    boolean myVisible = appearance.getVisible();
+    Color myBaseColor = new Color(theirBaseColor.getRed(),
+            theirBaseColor.getGreen(),
+            theirBaseColor.getBlue(),
+            theirBaseColor.getAlpha());
+				Point myLocation = new Point(theirLocation);
+    Dimension myMaxSize = new Dimension(theirMaxSize);
+				Shape myShape = theirShape.copy();
+				Dimension mySize = new Dimension(theirSize);
+    this.setBaseColor(myBaseColor);
+    this.setColor(myColor);
+				this.setLocation(myLocation);
+    this.setMaxSize(myMaxSize);
+				this.setShape(myShape);
+				this.setSize(mySize);
+    this.setVisible(myVisible);
+		}
   /**
    * Draws the appearance.
    * @param g The graphics to draw with.
@@ -171,6 +200,7 @@ public class BasicAppearance implements Appearance {
   @Override
   public void draw(Graphics g, Point startingPoint) {
     if (this.isVisible()) {
+						Shape shape = this.getShape();
       Color color = this.getColor();
       Dimension size = this.getSize();
       Point location = this.getLocation();
@@ -181,8 +211,10 @@ public class BasicAppearance implements Appearance {
 						y += ((maxSize.height - size.height) / 2);
       int width = size.width;
       int height = size.height;
+						shape.setLocation(new Point(x, y));
+						shape.setSize(new Dimension(width, height));
       g.setColor(color);
-      g.drawOval(x, y, width, height);
+						shape.draw(g, new Point(0, 0));
     }
   }
   /**

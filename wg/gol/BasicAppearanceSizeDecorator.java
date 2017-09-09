@@ -2,7 +2,6 @@
 package wg.gol;
 
 import java.awt.Dimension;
-import java.awt.Point;
 
 /**
  * A class used to add size animation to the BasicAppearance.
@@ -41,16 +40,24 @@ public class BasicAppearanceSizeDecorator extends BasicAppearanceDecorator {
 		public BasicAppearanceSizeDecorator(BasicAppearance subj) {
 				this.mSubj = subj;
 		}
+  /**
+   * Copies the decorator.
+   * @return The copy.
+   */
+  @Override
+  public BasicAppearanceSizeDecorator copy() {
+    BasicAppearanceSizeDecorator clone = new BasicAppearanceSizeDecorator();
+				clone.copy(this);
+    return clone;
+  }
 		/**
-			* Creates a copy of this instance.
-			* @return The copy.
+			* Copies the attributes of the given decorator.
+			* @param decorator The decorator to copy.
 			*/
-		@Override
-		public BasicAppearanceSizeDecorator copy() {
-				BasicAppearance mySubj = this.getSubj();
-				BasicAppearanceSizeDecorator clone = new BasicAppearanceSizeDecorator();
-				clone.setSubj(mySubj.copy());
-				return clone;
+		protected void copy(BasicAppearanceSizeDecorator decorator) {
+				BasicAppearance theirSubj = decorator.getSubj();
+				BasicAppearance mySubj = theirSubj.copy();
+				this.setSubj(mySubj);
 		}
 		/**
 			* Updates the appearance.

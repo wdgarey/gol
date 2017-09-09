@@ -151,25 +151,32 @@ public class BasicCell implements Cell {
    * Clones the cell.
    * @return The clone.
    */
-  protected BasicCell copy() {
-    Point myLocation = this.getLocation();
-    Appearance myLook = this.getLook();
-    CellRules myRules = this.getRules();
-    int theirAge = this.getAge();
-    Point theirLocation = new Point(myLocation);
-    Appearance theirLook = myLook.copy();
-    int theirMaxAge = this.getMaxAge();
-    CellGrid theirParent = this.getParent();
-    CellRules theirRules = myRules.copy();
+  public BasicCell copy() {
     BasicCell clone = new BasicCell();
-    clone.setAge(theirAge);
-    clone.setLocation(theirLocation);
-    clone.setLook(theirLook);
-    clone.setMaxAge(theirMaxAge);
-    clone.setParent(theirParent);
-    clone.setRules(theirRules);
+    clone.copy(this);
     return clone;
   }
+		/**
+			* Copies the attributes of another cell.
+			* @param cell The other cell.
+			*/
+		protected void copy(BasicCell cell) {
+    Point theirLocation = cell.getLocation();
+    Appearance theirLook = cell.getLook();
+    CellRules theirRules = cell.getRules();
+    int myAge = cell.getAge();
+    Point myLocation = new Point(theirLocation);
+    Appearance myLook = theirLook.copy();
+    int myMaxAge = cell.getMaxAge();
+    CellGrid myParent = cell.getParent();
+    CellRules myRules = theirRules.copy();
+    this.setAge(myAge);
+    this.setLocation(myLocation);
+    this.setLook(myLook);
+    this.setMaxAge(myMaxAge);
+    this.setParent(myParent);
+    this.setRules(myRules);
+		}
   /**
    * Tells the cell to die.
    */
