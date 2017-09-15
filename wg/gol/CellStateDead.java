@@ -69,7 +69,9 @@ public class CellStateDead implements CellState {
     boolean shouldLive = cellRules.shouldDeadCellLive(livingNeighbors);
     if (shouldLive == true) {
       cell.setNextState(CellStateAlive.getInstance());
-    }
+    } else {
+						cell.setNextState(this);
+				}
   }
   /**
    * Selects this state.

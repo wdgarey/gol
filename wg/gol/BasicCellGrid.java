@@ -4,6 +4,7 @@ package wg.gol;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  * A basic cell grid.
@@ -127,20 +128,11 @@ public class BasicCellGrid implements CellGrid {
   @Override
   public int countLivingNeighbors(Point loc) {
     int count = 0;
-    int startCol = loc.x - 1;
-    int startRow = loc.y - 1;
-    int stopCol = loc.x + 1;
-    int stopRow = loc.y + 1;
-    for (int row = startRow; row <= stopRow; row++) {
-      for (int col = startCol; col <= stopCol; col++) {
-        if (row != loc.y || col != loc.x) {
-          Point tempLoc = new Point(col, row);
-          Cell tempCell = this.getCell(tempLoc);
-          if (tempCell.isAlive()) {
-            count += 1;
-          }
-        }
-      }
+				Iterable<Cell> neighbors = this.getNeighbors(loc);
+				for (Cell neighbor : neighbors) {
+						if (neighbor.isAlive()) {
+								count += 1;
+						}
     }
     return count;
   }
@@ -185,6 +177,30 @@ public class BasicCellGrid implements CellGrid {
     }
     return cell;
   }
+		/**
+			* Gets the neighbors of a cell.
+			* @param loc The location of the cell.
+			* @return The neighbors.
+			*/
+		@Override
+		public Iterable<Cell> getNeighbors(Point loc) {
+    int startCol = loc.x - 1;
+    int startRow = loc.y - 1;
+    int stopCol = loc.x + 1;
+    int stopRow = loc.y + 1;
+				ArrayList<Cell> neighbors = new ArrayList<Cell>();
+    for (int row = startRow; row <= stopRow; row++) {
+      for (int col = startCol; col <= stopCol; col++) {
+        if (row != loc.y || col != loc.x) {
+          Point neighborLoc = new Point(col, row);
+          Cell neighbor = this.getCell(neighborLoc);
+										neighbors.add(neighbor);
+        }
+      }
+    }
+    return neighbors;
+		}
+		
   /**
    * Initializes the grid of cells.
    */

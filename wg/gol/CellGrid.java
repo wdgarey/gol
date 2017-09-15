@@ -26,6 +26,12 @@ public interface CellGrid extends Drawable {
    * @return The size.
    */
   public Dimension getCellSize();
+		/**
+			* Gets the neighbors of a cell.
+			* @param loc The location of the cell.
+			* @return The collection of neighbors.
+			*/
+		public Iterable<Cell> getNeighbors(Point loc);
   /**
    * Initializes the grid of cells.
    */

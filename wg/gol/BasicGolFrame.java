@@ -6,7 +6,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
@@ -119,7 +118,8 @@ public class BasicGolFrame extends JFrame implements ActionListener {
   public void initialize() {
     this.setTitle("Game of Life");
     this.setSize(1024, 768);
-    BasicCellFactory cellFac = new BasicCellFactory();
+    //BasicCellFactory cellFac = new BasicCellFactory();
+				BasicCellFactory cellFac = new BasicCellInfectedFactory();
     Shape cellLookShape = new OvalShape();
     //Shape cellLookShape = new RectangleShape();
     //RectangleShape3D cellLookShape = new RectangleShape3D();
@@ -165,6 +165,14 @@ public class BasicGolFrame extends JFrame implements ActionListener {
     cellLook.setBaseColor(Color.BLUE);
     cellLook.setShape(cellLookShape);
     CellStateAlive.getInstance().setCellLook(cellLook);
+				CellStateAliveUninfected.getInstance().setCellLook(cellLook);
+				RectangleShape3D infectedAppearanceShape = new RectangleShape3D();
+				BasicCellAppearance infectedAppearance = new BasicCellAppearance();
+				infectedAppearanceShape.setFill(true);
+				infectedAppearanceShape.setRaised(true);
+				infectedAppearance.setBaseColor(Color.GREEN);
+				infectedAppearance.setShape(infectedAppearanceShape);
+				CellStateAliveInfected.getInstance().setCellLook(new BasicAppearanceLegendDecorator(new BasicAppearanceSizeDecorator(infectedAppearance)));
     //Cell factory
     cellFac.setMaxAge(20);
     //Cells
