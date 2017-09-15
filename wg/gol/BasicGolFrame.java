@@ -119,12 +119,12 @@ public class BasicGolFrame extends JFrame implements ActionListener {
   public void initialize() {
     this.setTitle("Game of Life");
     this.setSize(1024, 768);
-				Shape cellLookShape = new OvalShape();
-				//Shape cellLookShape = new RectangleShape();
-				//RectangleShape3D cellLookShape = new RectangleShape3D();
-    BasicAppearance cellLook = new BasicAppearanceSizeDecorator(new BasicAppearanceLegendDecorator(new BasicAppearance()));
+    BasicCellFactory cellFac = new BasicCellFactory();
+    Shape cellLookShape = new OvalShape();
+    //Shape cellLookShape = new RectangleShape();
+    //RectangleShape3D cellLookShape = new RectangleShape3D();
+    BasicCellAppearance cellLook = new BasicAppearanceSizeDecorator(new BasicAppearanceLegendDecorator(new BasicCellAppearance()));
     BasicCellGrid cells = new BasicCellGrid();
-    BasicCellSettings cellSettings = new BasicCellSettings();
     Container pane = this.getContentPane();
     DrawPanel canvas = new DrawPanel();
     Timer updateTmr = new Timer(100, this);
@@ -160,25 +160,22 @@ public class BasicGolFrame extends JFrame implements ActionListener {
     updateTmr.setRepeats(true);
     this.setUpdateTmr(updateTmr);
     //Cell appearance
-				cellLookShape.setFill(true);
-				//cellLookShape.setRaised(true);
+    cellLookShape.setFill(false);
+    //cellLookShape.setRaised(true);
     cellLook.setBaseColor(Color.BLUE);
-    cellLook.setLocation(new Point(0, 0));
-    cellLook.setMaxSize(new Dimension(10, 10));
-				cellLook.setShape(cellLookShape);
-    cellLook.setVisible(true);
-    //Cell settings
-    cellSettings.setLook(cellLook);
-    cellSettings.setMaxAge(20);
-    cellSettings.setRules(new CellRules());
+    cellLook.setShape(cellLookShape);
+    CellStateAlive.getInstance().setCellLook(cellLook);
+    //Cell factory
+    cellFac.setMaxAge(20);
     //Cells
-    cells.setCellFac(new BasicCellFactory());
-    cells.setCellSettings(cellSettings);
+    cells.setCellFac(cellFac);
+    cells.setCellSize(new Dimension(10, 10));
     cells.setRows(70);
     cells.setCols(100);
     cells.initialize();
     this.setCells(cells);
     canvas.addDrawable(cells);
+    this.updateCb();
   }
   /**
    * Indicates if the frame is running.
@@ -219,7 +216,7 @@ public class BasicGolFrame extends JFrame implements ActionListener {
   protected void updateCb() {
     CellGrid cells = this.getCells();
     DrawPanel canvas = this.getCanvas();
-    cells.perdure();
+    cells.advance();
     canvas.repaint();
   }
 }

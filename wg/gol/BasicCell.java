@@ -14,13 +14,21 @@ public class BasicCell implements Cell {
    */
   private int mAge;
   /**
+   * The current state of the cell.
+   */
+  private CellState mCurrState;
+  /**
    * The grid location.
    */
   private Point mLocation;
   /**
    * The look of the cell.
    */
-  private Appearance mLook;
+  private CellAppearance mLook;
+  /**
+   * The next state of the cell.
+   */
+  private CellState mNextState;
   /**
    * The maximum age of the cell.
    */
@@ -41,18 +49,35 @@ public class BasicCell implements Cell {
     return this.mAge;
   }
   /**
+   * Gets the look of the cell.
+   * @return The look of the cell.
+   */
+  public CellAppearance getAppearance() {
+    return this.mLook;
+  }
+  /**
+   * Gets the current state of the cell.
+   * @return The current state.
+   */
+  @Override
+  public CellState getCurrState() {
+    return this.mCurrState;
+  }
+  /**
    * Gets the grid location.
    * @return The grid location.
    */
+  @Override
   public Point getLocation() {
     return this.mLocation;
   }
   /**
-   * Gets the look of the cell.
-   * @return The look of the cell.
+   * Gets the next state of the cell.
+   * @return The next state.
    */
-  public Appearance getLook() {
-    return this.mLook;
+  @Override
+  public CellState getNextState() {
+    return this.mNextState;
   }
   /**
    * Gets the maximum age of the cell.
@@ -65,6 +90,7 @@ public class BasicCell implements Cell {
    * Gets the grid that the cell belongs to.
    * @return The grid that the cell belongs to.
    */
+  @Override
   public CellGrid getParent() {
     return this.mParent;
   }
@@ -72,6 +98,7 @@ public class BasicCell implements Cell {
    * Gets the rules that the cell should use.
    * @return The rules.
    */
+  @Override
   public CellRules getRules() {
     return this.mRules;
   }
@@ -83,6 +110,22 @@ public class BasicCell implements Cell {
     this.mAge = age;
   }
   /**
+   * Sets the look of the cell.
+   * @param look The look.
+   */
+  @Override
+  public void setAppearance(CellAppearance look) {
+    this.mLook = look;
+  }
+  /**
+   * Sets the current state of the cell.
+   * @param state The current state.
+   */
+  @Override
+  public void setCurrState(CellState state) {
+    this.mCurrState = state;
+  }
+  /**
    * Sets the grid location.
    * @param loc The grid location.
    */
@@ -91,18 +134,19 @@ public class BasicCell implements Cell {
     this.mLocation = loc;
   }
   /**
-   * Sets the look of the cell.
-   * @param look The look.
-   */
-  public void setLook(Appearance look) {
-    this.mLook = look;
-  }
-  /**
    * Sets the maximum age.
    * @param maxAge The maximum age.
    */
   public void setMaxAge(int maxAge) {
     this.mMaxAge = maxAge;
+  }
+  /**
+   * Sets the next state of the cell.
+   * @param state The state.
+   */
+  @Override
+  public void setNextState(CellState state) {
+    this.mNextState = state;
   }
   /**
    * Sets the grid that the cell belongs to.
@@ -124,66 +168,21 @@ public class BasicCell implements Cell {
    */
   public BasicCell() {
     this.mAge = 0;
+    this.mCurrState = CellStateAlive.getInstance();
     this.mLocation = null;
     this.mLook = null;
     this.mMaxAge = 0;
+    this.mNextState = CellStateAlive.getInstance();
     this.mParent = null;
     this.mRules = null;
   }
   /**
-   * Applies the cell settings to the cell.
-   * @param settings The cell settings to apply.
+   * Determines the next state of the cell.
    */
   @Override
-  public void accept(CellSettings settings) {
-    settings.applyTo(this);
-  }
-  /**
-   * Tells the cell to be born.
-   */
-  @Override
-  public void beBorn() {
-    this.resetAge();
-    this.increaseAge();
-    this.updateAppearance();
-  }
-  /**
-   * Clones the cell.
-   * @return The clone.
-   */
-  public BasicCell copy() {
-    BasicCell clone = new BasicCell();
-    clone.copy(this);
-    return clone;
-  }
-		/**
-			* Copies the attributes of another cell.
-			* @param cell The other cell.
-			*/
-		protected void copy(BasicCell cell) {
-    Point theirLocation = cell.getLocation();
-    Appearance theirLook = cell.getLook();
-    CellRules theirRules = cell.getRules();
-    int myAge = cell.getAge();
-    Point myLocation = new Point(theirLocation);
-    Appearance myLook = theirLook.copy();
-    int myMaxAge = cell.getMaxAge();
-    CellGrid myParent = cell.getParent();
-    CellRules myRules = theirRules.copy();
-    this.setAge(myAge);
-    this.setLocation(myLocation);
-    this.setLook(myLook);
-    this.setMaxAge(myMaxAge);
-    this.setParent(myParent);
-    this.setRules(myRules);
-		}
-  /**
-   * Tells the cell to die.
-   */
-  @Override
-  public void die() {
-    this.resetAge();
-    this.updateAppearance();
+  public void determineNextState() {
+    CellState currState = this.getCurrState();
+    currState.determineNextState(this);
   }
   /**
    * Draws the cell.
@@ -192,13 +191,15 @@ public class BasicCell implements Cell {
    */
   @Override
   public void draw(Graphics g, Point startingPoint) {
-    Appearance look = this.getLook();
+    this.updateAppearance();
+    CellAppearance look = this.getAppearance();
     look.draw(g, startingPoint);
   }
   /**
    * Gets the age of the cell as a percentage.
    * @return The age as a percentage.
    */
+  @Override
   public double getAgeAsPercentage() {
     int age = this.getAge();
     int maxAge = this.getMaxAge();
@@ -206,17 +207,10 @@ public class BasicCell implements Cell {
     return percentage;
   }
   /**
-   * Tells the cell to grow.
-   */
-  @Override
-  public void grow() {
-    this.increaseAge();
-    this.updateAppearance();
-  }
-  /**
    * Increases the cells age.
    */
-  protected void increaseAge() {
+  @Override
+  public void increaseAge() {
     int age = this.getAge();
     int maxAge = this.getMaxAge();
     if (age < maxAge) {
@@ -230,45 +224,31 @@ public class BasicCell implements Cell {
    */
   @Override
   public boolean isAlive() {
-    int age = this.getAge();
-    boolean isAlive = (age > 0);
+    CellState currState = this.getCurrState();
+    boolean isAlive = currState.isAlive(this);
     return isAlive;
   }
   /**
-   * Perdures the cell by one time step.
-   * @return The future cell.
+   * Moves this cell to the next state.
    */
   @Override
-  public Cell perdure() {
-    CellRules rules = this.getRules();
-    BasicCell clone = this.copy();
-    Point myLoc = this.getLocation();
-    CellGrid parent = this.getParent();
-    int livingNeighbors = parent.countLivingNeighbors(myLoc);
-    if (this.isAlive()) {
-      if (rules.shouldLiveCellDie(livingNeighbors)) {
-        clone.die();
-      } else {
-        clone.grow();
-      }
-    } else {
-      if (rules.shouldDeadCellLive(livingNeighbors)) {
-        clone.beBorn();
-      }
-    }
-    return clone;
+  public void moveToNextState() {
+    CellState nextState = this.getNextState();
+    nextState.selected(this);
+    this.setCurrState(nextState);
   }
   /**
    * Resets the cell age.
    */
-  protected void resetAge() {
+  @Override
+  public void resetAge() {
     this.setAge(0);
   }
   /**
    * Updates the cells appearance.
    */
   protected void updateAppearance() {
-    Appearance look = this.getLook();
+    CellAppearance look = this.getAppearance();
     look.update(this);
   }
 }

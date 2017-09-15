@@ -29,41 +29,58 @@ public class NullCell implements Cell {
   protected NullCell(){
   }
   /**
-   * Applies the settings to this instance.
-   * @param settings The settings to apply.
+   * Gets the age as a percentage.
+   * @return The percentage.
    */
   @Override
-  public void accept(CellSettings settings) {
-    //Do nothing.
+  public double getAgeAsPercentage() {
+    return 0;
   }
   /**
-   * Tells the cell to be born.
+   * Gets the current state.
+   * @return The current state.
    */
   @Override
-  public void beBorn() {
-    //Do nothing.
+  public CellState getCurrState() {
+    return null;
   }
   /**
-   * Tells the cell to die.
+   * Gets the location.
+   * @return The location.
    */
   @Override
-  public void die() {
-    //Do nothing.
+  public Point getLocation() {
+    return null;
   }
   /**
-   * Draws the cell.
-   * @param g The graphics to use.
-   * @param startingPoint The starting point.
+   * Gets the next state.
+   * @return The next state.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
-    //Do nothing.
+  public CellState getNextState() {
+    return null;
   }
   /**
-   * Tells the cell to grow.
+   * Gets the parent.
+   * @return The parent.
    */
   @Override
-  public void grow() {
+  public CellGrid getParent() {
+    return null;
+  }
+  /**
+   * Gets the rules.
+   * @return The rules.
+   */
+  @Override
+  public CellRules getRules() {
+    return null;
+  }
+  /**
+   * Increases the age.
+   */
+  @Override
+  public void increaseAge() {
     //Do nothing.
   }
   /**
@@ -75,15 +92,44 @@ public class NullCell implements Cell {
     return false;
   }
   /**
-   * Perdures the cell through time.
-   * @return The future cell.
+   * Determines the next state.
    */
   @Override
-  public Cell perdure() {
-    return NullCell.getInstance();
+  public void determineNextState() {
+    //Do nothing.
   }
   /**
-   * Sets the location of the cell.
+   * Moves to the next state.
+   */
+  @Override
+  public void moveToNextState() {
+    //Do nothing.
+  }
+  /**
+   * Resets the current age.
+   */
+  @Override
+  public void resetAge() {
+    //Do nothing.
+  }
+  /**
+   * Sets the appearance.
+   * @param appearance The appearance.
+   */
+  @Override
+  public void setAppearance(CellAppearance appearance) {
+    //Do nothing.
+  }
+  /**
+   * Sets the current state.
+   * @param state The current state.
+   */
+  @Override
+  public void setCurrState(CellState state) {
+    //Do nothing.
+  }
+  /**
+   * Sets the location.
    * @param loc The location.
    */
   @Override
@@ -91,11 +137,28 @@ public class NullCell implements Cell {
     //Do nothing.
   }
   /**
-   * Sets the parent of the cell.
+   * Sets the next state.
+   * @param state The next state.
+   */
+  @Override
+  public void setNextState(CellState state) {
+    //Do nothing.
+  }
+  /**
+   * Sets the parent.
    * @param parent The parent.
    */
   @Override
   public void setParent(CellGrid parent) {
+    //Do nothing.
+  }
+  /**
+   * Draws the cell.
+   * @param g The graphics to use.
+   * @param startingPoint The starting point at which to draw.
+   */
+  @Override
+  public void draw(Graphics g, Point startingPoint) {
     //Do nothing.
   }
 }

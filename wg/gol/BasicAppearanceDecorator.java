@@ -7,15 +7,15 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 /**
- * A class used to decorate the BasicAppearance class.
+ * A class used to decorate the BasicCellAppearance class.
  * @author Wesley Garey
  */
-public abstract class BasicAppearanceDecorator extends BasicAppearance {
+public abstract class BasicAppearanceDecorator extends BasicCellAppearance {
   /**
    * Gets the subject being decorated.
    * @return The subject.
    */
-  public abstract BasicAppearance getSubj();
+  public abstract BasicCellAppearance getSubj();
   /**
    * Creates an instance of the BasicAppearanceDecorator class.
    */
@@ -53,14 +53,14 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   public Dimension getMaxSize() {
     return this.getSubj().getMaxSize();
   }
-		/**
-			* Gets the shape of the appearance.
-			* @return The shape.
-			*/
-		@Override
-		public Shape getShape() {
-				return this.getSubj().getShape();
-		}
+  /**
+    * Gets the shape of the appearance.
+    * @return The shape.
+    */
+  @Override
+  public Shape getShape() {
+      return this.getSubj().getShape();
+  }
   /**
    * Gest the size of the appearance.
    * @return The size.
@@ -68,14 +68,6 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   @Override
   protected Dimension getSize() {
     return this.getSubj().getSize();
-  }
-  /**
-   * Gets the flag that indicates if this appearance is visible.
-   * @return The flag.
-   */
-  @Override
-  public boolean getVisible() {
-    return this.getSubj().getVisible();
   }
   /**
    * Sets the base color.
@@ -117,29 +109,13 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   protected void setSize(Dimension size) {
     this.getSubj().setSize(size);
   }
-		/**
-			* Sets the shape of the appearance.
-			* @param shape The shape.
-			*/
-		@Override
-		public void setShape(Shape shape) {
-				this.getSubj().setShape(shape); //To change body of generated methods, choose Tools | Templates.
-		}
   /**
-   * Sets the flag that indicates if this appearance is visible.
-   * @param visible The flag.
-   */
+    * Sets the shape of the appearance.
+    * @param shape The shape.
+    */
   @Override
-  public void setVisible(boolean visible) {
-    this.getSubj().setVisible(visible);
-  }
-  /**
-   * Creates a clone of this instance.
-   * @return The clone.
-   */
-  @Override
-  public BasicAppearance copy() {
-    return this.getSubj().copy();
+  public void setShape(Shape shape) {
+      this.getSubj().setShape(shape); //To change body of generated methods, choose Tools | Templates.
   }
   /**
    * Draws the appearance.
@@ -149,14 +125,6 @@ public abstract class BasicAppearanceDecorator extends BasicAppearance {
   @Override
   public void draw(Graphics g, Point startingPoint) {
     this.getSubj().draw(g, startingPoint);
-  }
-  /**
-   * Indicates whether or not this appearance is visible.
-   * @return True, if this appearance is visible.
-   */
-  @Override
-  public boolean isVisible() {
-    return this.getSubj().isVisible();
   }
   /**
    * Updates the appearance based on the cell.

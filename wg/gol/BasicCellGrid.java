@@ -1,9 +1,9 @@
 
 package wg.gol;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Random;
 
 /**
  * A basic cell grid.
@@ -19,9 +19,9 @@ public class BasicCellGrid implements CellGrid {
    */
   private Cell[][] mCells;
   /**
-   * The cell settings.
+   * The size of one cell.
    */
-  private CellSettings mCellSettings;
+  private Dimension mCellSize;
   /**
    * The number of columns in the grid.
    */
@@ -38,11 +38,19 @@ public class BasicCellGrid implements CellGrid {
     return this.mCellFac;
   }
   /**
-   * Gets the cell settings.
-   * @return The cell settings.
+   * Gets the collection of cells.
+   * @return The collection of cells.
    */
-  public CellSettings getCellSettings() {
-    return this.mCellSettings;
+  public Cell[][] getCells() {
+    return this.mCells;
+  }
+  /**
+   * Gets size of one cell location.
+   * @return The size.
+   */
+  @Override
+  public Dimension getCellSize() {
+    return this.mCellSize;
   }
   /**
    * Gets the number of columns in the grid.
@@ -50,13 +58,6 @@ public class BasicCellGrid implements CellGrid {
    */
   public int getCols() {
     return this.mCols;
-  }
-  /**
-   * Gets the collection of cells.
-   * @return The collection of cells.
-   */
-  public Cell[][] getCells() {
-    return this.mCells;
   }
   /**
    * Gets the number of rows in the grid.
@@ -81,12 +82,11 @@ public class BasicCellGrid implements CellGrid {
     this.mCells = cells;
   }
   /**
-   * Sets the cell settings.
-   * @param cellSettings The cell settings.
+   * Sets the size of one cell location.
+   * @param cellSize The size.
    */
-  @Override
-  public void setCellSettings(CellSettings cellSettings) {
-    this.mCellSettings = cellSettings;
+  public void setCellSize(Dimension cellSize) {
+    this.mCellSize = cellSize;
   }
   /**
    * Sets the number of columns in the grid.
@@ -110,9 +110,15 @@ public class BasicCellGrid implements CellGrid {
   public BasicCellGrid() {
     this.mCells = new Cell[0][];
     this.mCellFac = new BasicCellFactory();
-    this.mCellSettings = new BasicCellSettings();
   }
-
+  /**
+   * Perdures the grid of cells by one time step.
+   */
+  @Override
+  public void advance() {
+    this.determineNextState();
+    this.moveToNextState();
+  }
   /**
    * Counts the number of living neighbors around the given location.
    * @param loc The given location.
@@ -137,6 +143,17 @@ public class BasicCellGrid implements CellGrid {
       }
     }
     return count;
+  }
+  /**
+   * Determines the next state of the cell grid.
+   */
+  protected void determineNextState() {
+    Cell[][] cells = this.getCells();
+    for (Cell[] cellRow : cells) {
+      for (Cell cell: cellRow) {
+        cell.determineNextState();
+      }
+    }
   }
   /**
    * Draws the grid of cells.
@@ -177,8 +194,6 @@ public class BasicCellGrid implements CellGrid {
     int cols = this.getCols();
     Cell[][] cells = new Cell[rows][];
     CellFactory cellFac = this.getCellFac();
-    Random rnd = new Random();
-    CellSettings cellSettings = this.getCellSettings();
     for (int rowIdx = 0; rowIdx < rows; rowIdx++) {
       cells[rowIdx] = new Cell[cols];
       for (int colIdx = 0; colIdx < cols; colIdx++) {
@@ -186,31 +201,21 @@ public class BasicCellGrid implements CellGrid {
         Cell cell = cellFac.createCell();
         cell.setLocation(loc);
         cell.setParent(this);
-        cell.accept(cellSettings);
         cells[rowIdx][colIdx] = cell;
-        if (rnd.nextBoolean()) {
-          cell.beBorn();
-        }
       }
     }
     this.setCells(cells);
   }
   /**
-   * Perdures the grid of cells by one time step.
+   * Moves the cell grid to the next state.
    */
-  @Override
-  public void perdure() {
-    Cell[][] oldCells = this.getCells();
-    Cell[][] newCells = new Cell[oldCells.length][];
-    for (int rowIdx = 0; rowIdx < oldCells.length; rowIdx++) {
-      Cell[] oldCellRow = oldCells[rowIdx];
-      Cell[] newCellRow = new Cell[oldCellRow.length];
-      for (int colIdx = 0; colIdx < newCellRow.length; colIdx++) {
-        newCellRow[colIdx] = oldCellRow[colIdx].perdure();
+  protected void moveToNextState() {
+    Cell[][] cells = this.getCells();
+    for (Cell[] cellRow : cells) {
+      for (Cell cell: cellRow) {
+        cell.moveToNextState();
       }
-      newCells[rowIdx] = newCellRow;
     }
-    this.setCells(newCells);
   }
   /**
    * Sets the cell at the given location.

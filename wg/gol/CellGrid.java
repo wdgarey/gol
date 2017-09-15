@@ -1,6 +1,7 @@
 
 package wg.gol;
 
+import java.awt.Dimension;
 import java.awt.Point;
 
 /**
@@ -21,13 +22,18 @@ public interface CellGrid extends Drawable {
    */
   public Cell getCell(Point loc);
   /**
+   * Gets the size of one grid in the cell.
+   * @return The size.
+   */
+  public Dimension getCellSize();
+  /**
    * Initializes the grid of cells.
    */
   public void initialize();
   /**
    * Perdures the grid of cells by one time step.
    */
-  public void perdure();
+  public void advance();
   /**
    * Sets the cell at a particular location.
    * @param loc The location.
@@ -39,11 +45,6 @@ public interface CellGrid extends Drawable {
    * @param cellFac The factory.
    */
   public void setCellFac(CellFactory cellFac);
-  /**
-   * Sets the cell settings.
-   * @param settings The settings.
-   */
-  public void setCellSettings(CellSettings settings);
   /**
    * Sets the number of columns.
    * @param cols The number of columns.

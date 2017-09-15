@@ -39,20 +39,20 @@ public class BasicAppearanceLegendDecorator extends BasicAppearanceDecorator {
   /**
    * The subject being decorated.
    */
-  private BasicAppearance mSubj;
+  private BasicCellAppearance mSubj;
   /**
    * Gets the subject being decorated.
    * @return The subject.
    */
   @Override
-  public BasicAppearance getSubj() {
+  public BasicCellAppearance getSubj() {
     return this.mSubj;
   }
   /**
    * Sets the subject being decorated.
    * @param subj The subject.
    */
-  public void setSubj(BasicAppearance subj) {
+  public void setSubj(BasicCellAppearance subj) {
     this.mSubj = subj;
   }
   /**
@@ -66,29 +66,10 @@ public class BasicAppearanceLegendDecorator extends BasicAppearanceDecorator {
    * Creates an instance of the BasicAppearanceLegendDecorator class.
    * @param subj The subject being decorated.
    */
-  public BasicAppearanceLegendDecorator(BasicAppearance subj) {
+  public BasicAppearanceLegendDecorator(BasicCellAppearance subj) {
     super();
     this.mSubj = subj;
   }
-  /**
-   * Copies the decorator.
-   * @return The copy.
-   */
-  @Override
-  public BasicAppearanceLegendDecorator copy() {
-    BasicAppearanceLegendDecorator clone = new BasicAppearanceLegendDecorator();
-				clone.copy(this);
-    return clone;
-  }
-		/**
-			* Copies the attributes of the given decorator.
-			* @param decorator The decorator to copy.
-			*/
-		protected void copy(BasicAppearanceLegendDecorator decorator) {
-				BasicAppearance theirSubj = decorator.getSubj();
-				BasicAppearance mySubj = theirSubj.copy();
-				this.setSubj(mySubj);
-		}
   /**
    * Updates the appearance based on the cell.
    * @param cell The cell to base the appearance off of.
