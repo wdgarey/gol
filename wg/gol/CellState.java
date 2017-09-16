@@ -7,11 +7,6 @@ package wg.gol;
  */
 public interface CellState {
   /**
-   * Sets the appearance that will be used by cells in this state.
-   * @param appearance The appearance.
-   */
-  public void setCellLook(CellAppearance appearance);
-  /**
    * Indicates if this cell is alive.
    * @param cell The cell.
    * @return True, if this cell is alive.

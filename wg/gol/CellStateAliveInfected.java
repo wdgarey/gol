@@ -16,7 +16,14 @@ public class CellStateAliveInfected extends CellStateAlive {
    */
   public static CellStateAliveInfected getInstance() {
     if (CellStateAliveInfected.sInstance == null) {
+						RectangleShape3D shp = new RectangleShape3D();
+						BasicCellAppearance appr = new BasicCellAppearance();
+						shp.setFill(true);
+						shp.setRaised(true);
+						appr.setShape(shp);
       CellStateAliveInfected.sInstance = new CellStateAliveInfected();
+						CellStateAliveInfected.sInstance.setDeadState(CellStateDead.getInstance());
+						CellStateAliveInfected.sInstance.setLook(new BasicAppearanceSizeDecorator(new BasicAppearanceLegendDecorator(appr)));
     }
     return CellStateAliveInfected.sInstance;
   }
@@ -25,19 +32,5 @@ public class CellStateAliveInfected extends CellStateAlive {
 			*/
 		public CellStateAliveInfected() {
 				super();
-		}
-		/**
-			* Determines the next state of the cell.
-			* @param cell The next state.
-			*/
-		@Override
-		public void determineNextState(Cell cell) {
-				super.determineNextState(cell);
-				CellState cellState = cell.getNextState();
-				if (cellState == CellStateAlive.getInstance()) {
-						cell.setNextState(this);
-				} else if (cellState == CellStateDead.getInstance()) {
-						cell.setNextState(CellStateDeadUninfected.getInstance());
-				}
 		}
 }

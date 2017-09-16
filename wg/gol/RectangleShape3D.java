@@ -33,16 +33,6 @@ public class RectangleShape3D extends BasicShape {
 				this.mRaised = true;
 		}
 		/**
-			* Creates a copy of the 3D rectangle shape.
-			* @return The copy.
-			*/
-		@Override
-		public RectangleShape3D copy() {
-				RectangleShape3D clone = new RectangleShape3D();
-				clone.copy(this);
-				return clone;
-		}
-		/**
 			* Draws the filled-in oval.
 			* @param g The graphics to draw with.
 			* @param x The x-coordinate.

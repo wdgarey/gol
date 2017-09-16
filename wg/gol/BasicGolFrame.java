@@ -6,8 +6,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -116,17 +120,18 @@ public class BasicGolFrame extends JFrame implements ActionListener {
    * Initializes the frame.
    */
   public void initialize() {
-    this.setTitle("Game of Life");
-    this.setSize(1024, 768);
-    //BasicCellFactory cellFac = new BasicCellFactory();
-				BasicCellFactory cellFac = new BasicCellInfectedFactory();
-    Shape cellLookShape = new OvalShape();
-    //Shape cellLookShape = new RectangleShape();
-    //RectangleShape3D cellLookShape = new RectangleShape3D();
-    BasicCellAppearance cellLook = new BasicAppearanceSizeDecorator(new BasicAppearanceLegendDecorator(new BasicCellAppearance()));
-    BasicCellGrid cells = new BasicCellGrid();
+				// Load the image to be used for infected cells.
+				Image infectedCellImg = null;
+				URL infectedCellImgUrl = BasicGolFrame.class.getResource("/wg/gol/images/virus.gif" );
+				try {
+						infectedCellImg = ImageIO.read(infectedCellImgUrl);
+				} catch(IOException e) {
+						e.printStackTrace();
+						System.exit(0);
+				}
+				//Set up the form
     Container pane = this.getContentPane();
-    DrawPanel canvas = new DrawPanel();
+    DrawPanel canvas = new DrawPanel(); //Create the custom canvas for drawing cells.
     Timer updateTmr = new Timer(100, this);
     JButton startStopBtn = new JButton("Start/Stop");
     GridBagConstraints layoutConstraints = new GridBagConstraints();
@@ -156,33 +161,47 @@ public class BasicGolFrame extends JFrame implements ActionListener {
     pane.add(startStopBtn, layoutConstraints);
     this.setStartStopBtn(startStopBtn);
     //Update timer
-    updateTmr.setInitialDelay(500);
-    updateTmr.setRepeats(true);
+				updateTmr.setDelay(100); //Set repeat delay.
+    updateTmr.setInitialDelay(500); //Set initital delay.
+    updateTmr.setRepeats(true); //Make the timer restart on expiration.
     this.setUpdateTmr(updateTmr);
     //Cell appearance
-    cellLookShape.setFill(false);
+    OvalShape cellLookShape = new OvalShape();
+    //Shape cellLookShape = new RectangleShape();
+    //RectangleShape3D cellLookShape = new RectangleShape3D();
     //cellLookShape.setRaised(true);
-    cellLook.setBaseColor(Color.BLUE);
-    cellLook.setShape(cellLookShape);
-    CellStateAlive.getInstance().setCellLook(cellLook);
-				CellStateAliveUninfected.getInstance().setCellLook(cellLook);
-				RectangleShape3D infectedAppearanceShape = new RectangleShape3D();
-				BasicCellAppearance infectedAppearance = new BasicCellAppearance();
-				infectedAppearanceShape.setFill(true);
-				infectedAppearanceShape.setRaised(true);
-				infectedAppearance.setBaseColor(Color.GREEN);
-				infectedAppearance.setShape(infectedAppearanceShape);
-				CellStateAliveInfected.getInstance().setCellLook(new BasicAppearanceLegendDecorator(new BasicAppearanceSizeDecorator(infectedAppearance)));
+    cellLookShape.setFill(false);
+    BasicCellAppearance cellLook = new BasicCellAppearance();
+				cellLook = new BasicAppearanceLegendDecorator(cellLook); //Make cells change color.
+				cellLook = new BasicAppearanceSizeDecorator(cellLook); //Make cells change size.
+    cellLook.setBaseColor(Color.BLUE); //Set the base color of a cell.
+    cellLook.setShape(cellLookShape); // Set the shape of a cell.
+    CellStateAlive.getInstance().setLook(cellLook); // Give living cells the above look.
+				CellStateAliveUninfected.getInstance().setLook(cellLook); //Give uninfected cells the above look.
+				ImageShape infecedCellShape = new ImageShape(); //The image shape.
+				infecedCellShape.setImg(infectedCellImg); //Set the image of the shape to the image of an infected cell.
+				ImageAppearance infectedCellLook = new ImageAppearance(infecedCellShape); // Create the look for an infected cell.
+				infectedCellLook.setAppr(new BasicAppearanceSizeDecorator(infectedCellLook.getAppr())); //Make the infected look change size.
+				CellStateAliveInfected.getInstance().setLook(infectedCellLook); //Give infected cells the above look.
     //Cell factory
-    cellFac.setMaxAge(20);
+    //BasicCellFactory cellFac = new BasicCellFactory(); //Initially add only non-infected cells.
+				BasicCellFactory cellFac = new BasicCellInfectedFactory(); //Add some already infected cells.
+				CellStateDead.getInstance().setAliveState(CellStateAliveUninfected.getInstance()); //Make it possible for uninfected living cells to become infected.
+    cellFac.setMaxAge(20); //The maximum age that a cell can grow to.
     //Cells
+    BasicCellGrid cells = new BasicCellGrid();
     cells.setCellFac(cellFac);
     cells.setCellSize(new Dimension(10, 10));
     cells.setRows(70);
     cells.setCols(100);
     cells.initialize();
-    this.setCells(cells);
+				//Link drawing and updates
     canvas.addDrawable(cells);
+    this.setCells(cells);
+				//Set form values.
+    this.setTitle("Game of Life");
+    this.setSize(1024, 768);
+				//Do one initial draw so that the canvas is not blank.
     this.updateCb();
   }
   /**

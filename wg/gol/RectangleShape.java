@@ -14,16 +14,6 @@ public class RectangleShape extends BasicShape {
 		public RectangleShape() {
 		}
 		/**
-			* Creates a copy of the rectangle.
-			* @return The copy.
-			*/
-		@Override
-		public RectangleShape copy() {
-				RectangleShape clone = new RectangleShape();
-				clone.copy(this);
-				return clone;
-		}
-		/**
 			* Draws the filled-in rectangle.
 			* @param g The graphics to draw with.
 			* @param x The x-coordinate.

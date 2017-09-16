@@ -47,7 +47,6 @@ public abstract class BasicShape implements Shape {
 			* Sets the flag that indicates if the shape should be filled in or not.
 			* @param fill The flag.
 			*/
-		@Override
 		public void setFill(boolean fill) {
 				this.mFill = fill;
 		}
@@ -74,20 +73,6 @@ public abstract class BasicShape implements Shape {
 				this.mFill = false;
 				this.mLocation = new Point();
 				this.mSize = new Dimension();
-		}
-		/**
-			* Copies the attributes of the given shape.
-			* @param shape The given shape.
-			*/
-		protected void copy(BasicShape shape) {
-				Point theirLocation = shape.getLocation();
-				Dimension theirSize = shape.getSize();
-				boolean theirFill = shape.getFill();
-				Point myLocation = new Point(theirLocation);
-				Dimension mySize = new Dimension (theirSize);
-				this.setFill(theirFill);
-				this.setLocation(myLocation);
-				this.setSize(mySize);
 		}
 		/**
 			* Draws the shape.

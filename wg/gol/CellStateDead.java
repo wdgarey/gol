@@ -19,33 +19,53 @@ public class CellStateDead implements CellState {
   public static CellStateDead getInstance() {
     if (CellStateDead.sInstance == null) {
       CellStateDead.sInstance = new CellStateDead();
+						CellStateDead.sInstance.setAliveState(CellStateAlive.getInstance());
+						CellStateDead.sInstance.setLook(NullAppearance.getInstance());
     }
     return CellStateDead.sInstance;
   }
+		/**
+			* The alive state to use.
+			*/
+		private CellState mAliveState;
   /**
    * The appearance to assign to live cells.
    */
-  private CellAppearance mCellLook;
+  private CellAppearance mLook;
+		/**
+			* Gets the alive state to use.
+			* @return The alive state.
+			*/
+		public CellState getAliveState() {
+				return this.mAliveState;
+		}
   /**
    * Gets the appearance of live cells.
    * @return The appearance.
    */
-  public CellAppearance getCellLook() {
-    return this.mCellLook;
+  public CellAppearance getLook() {
+    return this.mLook;
   }
+		/**
+			* Sets the alive state to use.
+			* @param aliveState The alive state.
+			*/
+		public void setAliveState(CellState aliveState) {
+				this.mAliveState = aliveState;
+		}
   /**
    * Sets the appearance of live cells.
-   * @param cellLook The appearance.
+   * @param look The appearance.
    */
-  @Override
-  public void setCellLook(CellAppearance cellLook) {
-    this.mCellLook = cellLook;
+  public void setLook(CellAppearance look) {
+    this.mLook = look;
   }
   /**
    * Creates an instance of the CellStateDead class.
    */
   protected CellStateDead() {
-    this.mCellLook = NullAppearance.getInstance();
+    this.mLook = null;
+				this.mAliveState = null;
   }
   /**
    * Indicates if the cell is alive.
@@ -65,10 +85,11 @@ public class CellStateDead implements CellState {
     Point cellLoc = cell.getLocation();
     CellRules cellRules = cell.getRules();
     CellGrid cellParent = cell.getParent();
+				CellState aliveCellState = this.getAliveState();
     int livingNeighbors = cellParent.countLivingNeighbors(cellLoc);
     boolean shouldLive = cellRules.shouldDeadCellLive(livingNeighbors);
     if (shouldLive == true) {
-      cell.setNextState(CellStateAlive.getInstance());
+      cell.setNextState(aliveCellState);
     } else {
 						cell.setNextState(this);
 				}
@@ -79,7 +100,7 @@ public class CellStateDead implements CellState {
    */
   @Override
   public void selected(Cell cell) {
-    CellAppearance cellLook = this.getCellLook();
+    CellAppearance cellLook = this.getLook();
     cell.setAppearance(cellLook);
     cell.resetAge();
   }

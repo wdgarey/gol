@@ -127,8 +127,8 @@ public class BasicCellAppearance implements CellAppearance {
     this.mColor = Color.BLUE;
     this.mLocation = new Point();
     this.mMaxSize = new Dimension();
-		this.mShape = new OvalShape();
-		this.mSize = new Dimension();
+				this.mShape = new OvalShape();
+				this.mSize = new Dimension();
   }
   /**
    * Draws the appearance.

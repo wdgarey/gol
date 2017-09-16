@@ -14,16 +14,6 @@ public class OvalShape extends BasicShape {
 		public OvalShape() {
 		}
 		/**
-			* Creates a copy of the oval.
-			* @return The copy.
-			*/
-		@Override
-		public OvalShape copy() {
-				OvalShape clone = new OvalShape();
-				clone.copy(this);
-				return clone;
-		}
-		/**
 			* Draws the filled-in oval.
 			* @param g The graphics to draw with.
 			* @param x The x-coordinate.

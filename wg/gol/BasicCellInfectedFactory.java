@@ -22,12 +22,11 @@ public class BasicCellInfectedFactory extends BasicCellFactory {
 		public BasicCell createCell() {
 				Random rnd = this.getRnd();
 				BasicCell cell = super.createCell();
-				int x = rnd.nextInt(3);
-				if (x == 0) {
+				int x = rnd.nextInt(100);
+				if (cell.getCurrState() == CellStateAlive.getInstance()) {
 						cell.setCurrState(CellStateAliveUninfected.getInstance());
-				} else if (x == 1) {
-						cell.setCurrState(CellStateDeadUninfected.getInstance());
-				} else {
+				}
+				if (x > 98) {
 						cell.setCurrState(CellStateAliveInfected.getInstance());
 				}
 				return cell;
