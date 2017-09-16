@@ -9,10 +9,29 @@ import java.util.Random;
  */
 public class BasicCellInfectedFactory extends BasicCellFactory {
 		/**
+			* The infection rate.
+			*/
+		private double mInfectionRate;
+		/**
+			* Gets the infection rate.
+			* @return The infection rate.
+			*/
+		public double getInfectionRate() {
+				return this.mInfectionRate;
+		}
+		/**
+			* Sets the infection rate.
+			* @param infectionRate The infection rate.
+			*/
+		public void setInfectionRate(double infectionRate) {
+				this.mInfectionRate = infectionRate;
+		}
+		/**
 			* Creates an instance of the BasicCellInfectedFactory class.
 			*/
 		public BasicCellInfectedFactory() {
 				super();
+				this.mInfectionRate = 0.02;
 		}
 		/**
 			* Creates basic cells that can be infected.
@@ -21,12 +40,13 @@ public class BasicCellInfectedFactory extends BasicCellFactory {
 		@Override
 		public BasicCell createCell() {
 				Random rnd = this.getRnd();
+				double infectionRate = this.getInfectionRate();
 				BasicCell cell = super.createCell();
-				int x = rnd.nextInt(100);
+				double x = rnd.nextDouble();
 				if (cell.getCurrState() == CellStateAlive.getInstance()) {
 						cell.setCurrState(CellStateAliveUninfected.getInstance());
 				}
-				if (x > 98) {
+				if (x <= infectionRate) {
 						cell.setCurrState(CellStateAliveInfected.getInstance());
 				}
 				return cell;

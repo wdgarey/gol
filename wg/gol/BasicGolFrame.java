@@ -183,11 +183,14 @@ public class BasicGolFrame extends JFrame implements ActionListener {
 				ImageAppearance infectedCellLook = new ImageAppearance(infecedCellShape); // Create the look for an infected cell.
 				infectedCellLook.setAppr(new BasicAppearanceSizeDecorator(infectedCellLook.getAppr())); //Make the infected look change size.
 				CellStateAliveInfected.getInstance().setLook(infectedCellLook); //Give infected cells the above look.
-    //Cell factory
+    //Initial cell creation
     //BasicCellFactory cellFac = new BasicCellFactory(); //Initially add only non-infected cells.
-				BasicCellFactory cellFac = new BasicCellInfectedFactory(); //Add some already infected cells.
+				BasicCellInfectedFactory cellFac = new BasicCellInfectedFactory(); //Add some already infected cells.
+    cellFac.setMaxAge(20); //The maximum age before a cell stops growing.
+				//Infected cell settings.
+				cellFac.setInfectionRate(0.02); //Sets the rate of infection for the initial cells.
 				CellStateDead.getInstance().setAliveState(CellStateAliveUninfected.getInstance()); //Make it possible for uninfected living cells to become infected.
-    cellFac.setMaxAge(20); //The maximum age that a cell can grow to.
+				CellStateAliveInfected.getInstance().setSurvivalRate(0.99); //Sets the rate at which cells survive per-time-step
     //Cells
     BasicCellGrid cells = new BasicCellGrid();
     cells.setCellFac(cellFac);
