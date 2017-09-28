@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.Point;
 
 /**
- *
+ * A class used to represent an image shape.
  * @author Wesley Garey
  */
 public class ImageShape implements Shape {
@@ -78,15 +78,14 @@ public class ImageShape implements Shape {
 		/**
 			* Draws the image shape.
 			* @param g The graphics to use.
-			* @param startingPoint The starting point.
 			*/
 		@Override
-		public void draw(Graphics g, Point startingPoint) {
+		public void draw(Graphics g) {
 				Image img = this.getImg();
 				Point location = this.getLocation();
 				Dimension size = this.getSize();
-				int x = startingPoint.x + location.x;
-				int y = startingPoint.y + location.y;
+				int x = location.x;
+				int y = location.y;
 				int width = size.width;
 				int height = size.height;
 				g.drawImage(img, x, y, width, height, null);

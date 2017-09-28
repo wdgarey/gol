@@ -133,17 +133,16 @@ public class BasicCellAppearance implements CellAppearance {
   /**
    * Draws the appearance.
    * @param g The graphics to draw with.
-   * @param startingPoint The starting point.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
+  public void draw(Graphics g) {
     Shape shape = this.getShape();
     Color color = this.getColor();
     Dimension size = this.getSize();
     Point location = this.getLocation();
     Dimension maxSize = this.getMaxSize();
-    int x = (startingPoint.x + (location.x * maxSize.width));
-    int y = (startingPoint.y + (location.y * maxSize.height));
+    int x = (location.x * maxSize.width);
+    int y = (location.y * maxSize.height);
     x += ((maxSize.width - size.width) / 2);
     y += ((maxSize.height - size.height) / 2);
     int width = size.width;
@@ -151,7 +150,7 @@ public class BasicCellAppearance implements CellAppearance {
     shape.setLocation(new Point(x, y));
     shape.setSize(new Dimension(width, height));
     g.setColor(color);
-    shape.draw(g, new Point(0, 0));
+    shape.draw(g);
   }
   /**
    * Updates the appearance based on the cell.

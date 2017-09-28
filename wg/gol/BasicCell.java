@@ -187,13 +187,12 @@ public class BasicCell implements Cell {
   /**
    * Draws the cell.
    * @param g The graphics to use to draw the cell.
-   * @param startingPoint The starting point.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
+  public void draw(Graphics g) {
     this.updateAppearance();
     CellAppearance look = this.getAppearance();
-    look.draw(g, startingPoint);
+    look.draw(g);
   }
   /**
    * Gets the age of the cell as a percentage.

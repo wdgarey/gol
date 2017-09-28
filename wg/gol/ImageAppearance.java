@@ -1,9 +1,7 @@
 
 package wg.gol;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  * The appearance of an image.
@@ -75,10 +73,9 @@ public class ImageAppearance implements CellAppearance {
 		/**
 			* Draws the appearance.
 			* @param g The graphics to use.
-			* @param startingPoint The offset.
 			*/
 		@Override
-		public void draw(Graphics g, Point startingPoint) {
-				this.getAppr().draw(g, startingPoint);
+		public void draw(Graphics g) {
+				this.getAppr().draw(g);
 		}
 }

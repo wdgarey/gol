@@ -45,9 +45,9 @@ public class BasicCellInfectedFactory extends BasicCellFactory {
 				double x = rnd.nextDouble();
 				if (cell.getCurrState() == CellStateAlive.getInstance()) {
 						cell.setCurrState(CellStateAliveUninfected.getInstance());
-				}
-				if (x <= infectionRate) {
-						cell.setCurrState(CellStateAliveInfected.getInstance());
+						if (x <= infectionRate) {
+								cell.setCurrState(CellStateAliveInfected.getInstance());
+						}
 				}
 				return cell;
 		}

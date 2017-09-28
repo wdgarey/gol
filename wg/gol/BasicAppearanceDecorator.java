@@ -120,11 +120,10 @@ public abstract class BasicAppearanceDecorator extends BasicCellAppearance {
   /**
    * Draws the appearance.
    * @param g The graphics to draw with.
-   * @param startingPoint The starting point.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
-    this.getSubj().draw(g, startingPoint);
+  public void draw(Graphics g) {
+    this.getSubj().draw(g);
   }
   /**
    * Updates the appearance based on the cell.

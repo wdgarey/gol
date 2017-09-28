@@ -4,7 +4,7 @@ package wg.gol;
 import java.awt.Point;
 
 /**
- *
+ * The state of a living cell.
  * @author Wesley Garey
  */
 public class CellStateAlive implements CellState {

@@ -155,10 +155,9 @@ public class NullCell implements Cell {
   /**
    * Draws the cell.
    * @param g The graphics to use.
-   * @param startingPoint The starting point at which to draw.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
+  public void draw(Graphics g) {
     //Do nothing.
   }
 }

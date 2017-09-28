@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 /**
- *
+ * A class that represents a basic shape.
  * @author Wesley Garey
  */
 public abstract class BasicShape implements Shape {
@@ -77,14 +77,13 @@ public abstract class BasicShape implements Shape {
 		/**
 			* Draws the shape.
 			* @param g The graphics to draw with.
-			* @param startingPoint The starting point.
 			*/
 		@Override
-		public void draw(Graphics g, Point startingPoint) {
+		public void draw(Graphics g) {
 				Point location = this.getLocation();
 				Dimension size = this.getSize();
-				int x = startingPoint.x + location.x;
-				int y = startingPoint.y + location.y;
+				int x = location.x;
+				int y = location.y;
 				int width = size.width;
 				int height = size.height;
 				if (this.isFilled()) {

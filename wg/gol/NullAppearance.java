@@ -2,7 +2,6 @@
 package wg.gol;
 
 import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  * A null appearance.
@@ -39,10 +38,9 @@ public class NullAppearance implements CellAppearance {
   /**
    * Draws the appearance.
    * @param g The graphics to draw with.
-   * @param startingPoint The starting point.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
+  public void draw(Graphics g) {
     //Do nothing.
   }
 }

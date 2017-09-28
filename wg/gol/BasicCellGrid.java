@@ -150,16 +150,31 @@ public class BasicCellGrid implements CellGrid {
   /**
    * Draws the grid of cells.
    * @param g The graphics to use.
-   * @param startingPoint The starting point.
    */
   @Override
-  public void draw(Graphics g, Point startingPoint) {
+  public void draw(Graphics g) {
     Cell[][] cells = this.getCells();
     for (Cell[] cellRow : cells) {
       for (Cell cell : cellRow) {
-        cell.draw(g, startingPoint);
+        cell.draw(g);
       }
     }
+  }
+  /**
+   * Gets the collection of all cells.
+   * @return The collection.
+   */
+  @Override
+  public Iterable<Cell> getAllCells() {
+    Cell[][] cells = this.getCells();
+    ArrayList<Cell> allCells = new ArrayList<Cell>();
+    for (int rowIdx = 0; rowIdx < cells.length; rowIdx += 1) {
+      Cell[] cellRow = cells[rowIdx];
+      for (int colIdx = 0; colIdx < cellRow.length; colIdx += 1) {
+        allCells.add(cellRow[colIdx]);
+      }
+    }
+    return allCells;
   }
   /**
    * Gets the cell at the given location.

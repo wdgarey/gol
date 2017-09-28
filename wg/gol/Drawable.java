@@ -2,7 +2,6 @@
 package wg.gol;
 
 import java.awt.Graphics;
-import java.awt.Point;
 
 /**
  * An interface for objects that can be drawn.
@@ -12,7 +11,6 @@ public interface Drawable {
   /**
    * Draws the object.
    * @param g The graphics to draw with.
-   * @param startingPoint The starting point.
    */
-  public void draw(Graphics g, Point startingPoint);
+  public void draw(Graphics g);
 }

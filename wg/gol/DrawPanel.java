@@ -4,7 +4,6 @@ package wg.gol;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JPanel;
@@ -15,15 +14,33 @@ import javax.swing.JPanel;
  */
 public class DrawPanel extends JPanel {
   /**
+   * The background color.
+   */
+  private Color mBgColor;
+  /**
    * The collection of objects to draw.
    */
   private Collection<Drawable> mDrawables;
+  /**
+   * Gets the background color.
+   * @return The color.
+   */
+  public Color getBgColor() {
+    return this.mBgColor;
+  }
   /**
    * Gets the collection of objects to draw.
    * @return The collection.
    */
   public Collection<Drawable> getDrawables() {
     return this.mDrawables;
+  }
+  /**
+   * Sets the background color.
+   * @param bgColor The color.
+   */
+  public void setBgColor(Color bgColor) {
+    this.mBgColor = bgColor;
   }
   /**
    * Sets the collection of objects to draw.
@@ -36,6 +53,7 @@ public class DrawPanel extends JPanel {
    * Creates an instance of the DrawPanel class.
    */
   public DrawPanel() {
+    this.mBgColor = Color.BLACK;
     this.mDrawables = new ArrayList<Drawable>();
   }
   /**
@@ -60,13 +78,13 @@ public class DrawPanel extends JPanel {
   @Override
   public void paint(Graphics g) {
     super.paint(g);
-    g.setColor(Color.BLACK);
     Dimension size = this.getSize();
+    Color bgColor = this.getBgColor();
+    g.setColor(bgColor);
     g.fillRect(0, 0, size.width, size.height);
-    Point startingPoint = this.getLocation();
     Collection<Drawable> drawables = this.getDrawables();
     for (Drawable drawable : drawables) {
-      drawable.draw(g, startingPoint);
+      drawable.draw(g);
     }
   }
 }

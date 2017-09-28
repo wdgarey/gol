@@ -4,7 +4,7 @@ package wg.gol;
 import java.awt.Point;
 
 /**
- *
+ * A class used to represent the state of an alive, uninfected cell.
  * @author Wesley Garey
  */
 public class CellStateAliveUninfected extends CellStateAlive {

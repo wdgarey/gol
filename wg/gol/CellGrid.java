@@ -16,6 +16,11 @@ public interface CellGrid extends Drawable {
    */
   public int countLivingNeighbors(Point loc);
   /**
+   * Gets all the cells in the grid.
+   * @return The collection of cells.
+   */
+  public Iterable<Cell> getAllCells();
+  /**
    * Gets the cell located a particular location.
    * @param loc The location.
    * @return The cell.

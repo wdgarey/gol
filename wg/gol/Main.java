@@ -8,6 +8,10 @@ import javax.swing.JFrame;
  * @author Wesley Garey
  */
 public class Main {
+  /**
+   * The main method.
+   * @param args The main arguments.
+   */
   public static void main(String[] args) {
     BasicGolFrame mainFrame = new BasicGolFrame();
     mainFrame.initialize();
