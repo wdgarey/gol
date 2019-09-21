@@ -61,7 +61,7 @@ public class CellGridStatistics {
     CellGrid grid = this.getGrid();
     Iterable<Cell> cells = grid.getAllCells();
     for (Cell cell : cells) {
-      if (cell.getCurrState() == CellStateAliveInfected.getInstance()) {
+      if (cell.getCurrState() == CellStateVirusInfected.getInstance()) {
         count += 1;
       }
     }

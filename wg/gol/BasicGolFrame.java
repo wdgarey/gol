@@ -1,4 +1,3 @@
-
 package wg.gol;
 
 import java.awt.Color;
@@ -24,9 +23,11 @@ import javax.swing.Timer;
 
 /**
  * The GOL frame.
+ *
  * @author Wesley Garey
  */
 public class BasicGolFrame extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
+
   /**
    * The alive cell count label.
    */
@@ -59,118 +60,151 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
    * The timer used to update.
    */
   private Timer mUpdateTmr;
+
   /**
    * Gets the alive cell count label.
+   *
    * @return The label.
    */
   protected JLabel getAliveLbl() {
     return this.mAliveLbl;
   }
+
   /**
    * Gets the drawing canvas.
+   *
    * @return The drawing canvas.
    */
   protected DrawPanel getCanvas() {
     return this.mCanvas;
   }
+
   /**
    * Gets the collection of cells.
+   *
    * @return The collection of cells.
    */
   protected CellGrid getCells() {
     return this.mCells;
   }
+
   /**
    * Gets the dead cell count label.
+   *
    * @return The label.
    */
   protected JLabel getDeadLbl() {
     return this.mDeadLbl;
   }
+
   /**
    * Gets the infected cell count label.
+   *
    * @return The label.
    */
   protected JLabel getInfectedLbl() {
     return this.mInfectedLbl;
   }
+
   /**
    * Gets the start/stop button.
+   *
    * @return The start/stop button.
    */
   protected JButton getStartStopBtn() {
     return this.mStartStopBtn;
   }
+
   /**
    * Gets the total cell count label.
+   *
    * @return The label.
    */
   protected JLabel getTotalLbl() {
     return this.mTotalLbl;
   }
+
   /**
    * Gets the timer used to update.
+   *
    * @return The timer.
    */
   protected Timer getUpdateTmr() {
     return this.mUpdateTmr;
   }
+
   /**
    * Sets the alive cell count label.
+   *
    * @param aliveLbl The label.
    */
   protected void setAliveLbl(JLabel aliveLbl) {
     this.mAliveLbl = aliveLbl;
   }
+
   /**
    * Sets the drawing canvas.
+   *
    * @param canvas The drawing canvas.
    */
   protected void setCanvas(DrawPanel canvas) {
     this.mCanvas = canvas;
   }
+
   /**
    * Sets the collection of cells.
+   *
    * @param cells The collection of cells.
    */
   protected void setCells(CellGrid cells) {
     this.mCells = cells;
   }
+
   /**
    * Sets the dead cell count label.
+   *
    * @param deadLbl The label.
    */
   protected void setDeadLbl(JLabel deadLbl) {
     this.mDeadLbl = deadLbl;
   }
+
   /**
    * Sets the infected cell count label.
+   *
    * @param infectedLbl The label.
    */
   protected void setInfectedLbl(JLabel infectedLbl) {
     this.mInfectedLbl = infectedLbl;
   }
+
   /**
    * Sets the start/stop button.
+   *
    * @param startStopBtn The start/stop button.
    */
   protected void setStartStopBtn(JButton startStopBtn) {
     this.mStartStopBtn = startStopBtn;
   }
+
   /**
    * Sets the total cell count label.
+   *
    * @param totalLbl The label.
    */
   protected void setTotalLbl(JLabel totalLbl) {
     this.mTotalLbl = totalLbl;
   }
+
   /**
    * Sets the timer used to update.
+   *
    * @param updateTmr The timer.
    */
   protected void setUpdateTmr(Timer updateTmr) {
     this.mUpdateTmr = updateTmr;
   }
+
   /**
    * Creates an instance of the BasicGolFrame class.
    */
@@ -185,8 +219,10 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
     this.mTotalLbl = null;
     this.mUpdateTmr = null;
   }
+
   /**
    * Notifies the frame that an action was performed.
+   *
    * @param e The action event.
    */
   @Override
@@ -198,20 +234,21 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
       this.startStopCb();
     }
   }
+
   /**
    * Initializes the frame.
    */
   public void initialize() {
-				// Load the image to be used for infected cells.
-				Image infectedCellImg = null;
-				URL infectedCellImgUrl = BasicGolFrame.class.getResource("/wg/gol/images/virus.gif" );
-				try {
-						infectedCellImg = ImageIO.read(infectedCellImgUrl);
-				} catch(IOException e) {
-						e.printStackTrace();
-						System.exit(0);
-				}
-				//Set up the form
+    // Load the image to be used for infected cells.
+    Image infectedCellImg = null;
+    URL infectedCellImgUrl = BasicGolFrame.class.getResource("/wg/gol/images/virus.gif");
+    try {
+      infectedCellImg = ImageIO.read(infectedCellImgUrl);
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.exit(0);
+    }
+    //Set up the form
     Container pane = this.getContentPane();
     DrawPanel canvas = new DrawPanel(); //Create the custom canvas for drawing cells.
     JLabel totalLbl = new JLabel("Total:");
@@ -263,61 +300,63 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
     pane.add(infectedLbl, layoutConstraints);
     this.setInfectedLbl(infectedLbl);
     //Update timer
-				updateTmr.setDelay(100); //Set repeat delay.
+    updateTmr.setDelay(75); //Set repeat delay.
     updateTmr.setInitialDelay(500); //Set initital delay.
     updateTmr.setRepeats(true); //Make the timer restart on expiration.
     this.setUpdateTmr(updateTmr);
     //Cell appearance
     OvalShape cellLookShape = new OvalShape();
-    //Shape cellLookShape = new RectangleShape();
+    //RectangleShape cellLookShape = new RectangleShape();
     //RectangleShape3D cellLookShape = new RectangleShape3D();
     //cellLookShape.setRaised(true);
-    cellLookShape.setFill(true);
+    //cellLookShape.setFill(false);
     BasicCellAppearance cellLook = new BasicCellAppearance();
-				cellLook = new BasicAppearanceLegendDecorator(cellLook); //Make cells change color.
-				cellLook = new BasicAppearanceSizeDecorator(cellLook); //Make cells change size.
-    cellLook.setBaseColor(Color.RED); //Set the base color of a cell.
+    cellLook = new BasicAppearanceLegendDecorator(cellLook); //Make cells change color.
+    cellLook = new BasicAppearanceSizeDecorator(cellLook); //Make cells change size.
+    cellLook.setBaseColor(Color.WHITE); //Set the base color of a cell.
     cellLook.setShape(cellLookShape); // Set the shape of a cell.
     CellStateAlive.getInstance().setLook(cellLook); // Give living cells the above look.
-				CellStateAliveUninfected.getInstance().setLook(cellLook); //Give uninfected cells the above look.
-				ImageShape infecedCellShape = new ImageShape(); //The image shape.
-				infecedCellShape.setImg(infectedCellImg); //Set the image of the shape to the image of an infected cell.
-				ImageAppearance infectedCellLook = new ImageAppearance(infecedCellShape); // Create the look for an infected cell.
-				infectedCellLook.setAppr(new BasicAppearanceSizeDecorator(infectedCellLook.getAppr())); //Make the infected look change size.
-				CellStateAliveInfected.getInstance().setLook(infectedCellLook); //Give infected cells the above look.
+    CellStateVirusAlive.getInstance().setLook(cellLook); //Give uninfected cells the above look.
+    ImageShape infecedCellShape = new ImageShape(); //The image shape.
+    infecedCellShape.setImg(infectedCellImg); //Set the image of the shape to the image of an infected cell.
+    ImageAppearance infectedCellLook = new ImageAppearance(infecedCellShape); // Create the look for an infected cell.
+    infectedCellLook.setAppr(new BasicAppearanceSizeDecorator(infectedCellLook.getAppr())); //Make the infected look change size.
+    CellStateVirusInfected.getInstance().setLook(infectedCellLook); //Give infected cells the above look.
     //Initial cell creation
-    //BasicCellFactory cellFac = new BasicCellFactory(); //Initially add only non-infected cells.
-				BasicCellInfectedFactory cellFac = new BasicCellInfectedFactory(); //Add some already infected cells.
-    cellFac.setMaxAge(12); //The maximum age before a cell stops growing.
-				//Infected cell settings.
-				cellFac.setInfectionRate(1.0); //Sets the rate of infection for the initial cells.
-				CellStateDead.getInstance().setAliveState(CellStateAliveUninfected.getInstance()); //Make it possible for uninfected living cells to become infected.
-				CellStateAliveInfected.getInstance().setSurvivalRate(1.0); //Sets the rate at which cells survive per-time-step
+    BasicCellFactory basicCellFac = new BasicCellFactory(); //Initially add only non-infected cells.
+    basicCellFac.setMaxAge(6); //The maximum age before a cell stops growing.
+    //Infected cell settings.
+    InfectedCellFactory infectedCellFac = new InfectedCellFactory(basicCellFac); //Add some already infected cells.
+    infectedCellFac.setInfectionRate(0.001); //Sets the rate of infection for the initial cells.
+    CellStateVirusInfected.getInstance().setSurvivalRate(0.999); //Sets the rate at which cells survive per-time-step
     //Cells
     BasicCellGrid cells = new BasicCellGrid();
-    cells.setCellFac(cellFac);
-    cells.setCellSize(new Dimension(5, 5));
-    cells.setRows(160);
-    cells.setCols(288);
+    cells.setCellFac(infectedCellFac);
+    cells.setCellSize(new Dimension(10, 10));
+    cells.setRows(100);
+    cells.setCols(360);
     cells.initialize();
-				//Link drawing and updates
+    //Link drawing and updates
     canvas.addDrawable(cells);
     this.setCells(cells);
-				//Set form values.
+    //Set form values.
     this.setTitle("Game of Life");
-    this.setSize(1440, 900);
-				//Do one initial draw so that the canvas is not blank.
+    this.setSize(3600, 1050);
+    //Do one initial draw so that the canvas is not blank.
     this.updateCb();
   }
+
   /**
    * Indicates if the frame is running.
+   *
    * @return True, if the frame is running.
    */
   protected boolean isRunning() {
     Timer updateTmr = this.getUpdateTmr();
-    boolean isRunning = updateTmr.isRunning();    
+    boolean isRunning = updateTmr.isRunning();
     return isRunning;
   }
+
   /**
    * Starts the frame.
    */
@@ -325,6 +364,7 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
     Timer updateTmr = this.getUpdateTmr();
     updateTmr.start();
   }
+
   /**
    * The start/stop callback.
    */
@@ -335,6 +375,7 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
       this.start();
     }
   }
+
   /**
    * Stops the frame.
    */
@@ -342,6 +383,7 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
     Timer updateTmr = this.getUpdateTmr();
     updateTmr.stop();
   }
+
   /**
    * The update callback.
    */
@@ -357,74 +399,88 @@ public class BasicGolFrame extends JFrame implements ActionListener, MouseListen
     this.getDeadLbl().setText("Dead: " + stats.getDead() + " ");
     this.getInfectedLbl().setText("Infected: " + stats.getInfected() + " ");
   }
+
   /**
    * Mouse clicked event.
+   *
    * @param e The event information.
    */
   @Override
   public void mouseClicked(MouseEvent e) {
-      Point cellPt = new Point();
-      Point clickPt = e.getPoint();
-      DrawPanel canvas = this.getCanvas();
-      CellGrid cellGrid = this.getCells();
-      Dimension cellSize = cellGrid.getCellSize();
-      cellPt.x = clickPt.x / cellSize.width;
-      cellPt.y = clickPt.y / cellSize.height;
-      Cell cell = cellGrid.getCell(cellPt);
-      if (e.getButton() == MouseEvent.BUTTON1
-              || e.getButton() == MouseEvent.NOBUTTON) {
-        if (!cell.isAlive()) {
-          cell.setNextState(CellStateAliveUninfected.getInstance());
-        } else if (cell.getCurrState() == CellStateAliveInfected.getInstance()) {
-          cell.setNextState(CellStateDead.getInstance());
-        } else if (cell.isAlive()) {
-          cell.setNextState(CellStateAliveInfected.getInstance());
-        }
-        cell.moveToNextState();
-        canvas.repaint();
+    Point cellPt = new Point();
+    Point clickPt = e.getPoint();
+    DrawPanel canvas = this.getCanvas();
+    CellGrid cellGrid = this.getCells();
+    Dimension cellSize = cellGrid.getCellSize();
+    cellPt.x = clickPt.x / cellSize.width;
+    cellPt.y = clickPt.y / cellSize.height;
+    Cell cell = cellGrid.getCell(cellPt);
+    if (e.getButton() == MouseEvent.BUTTON1
+            || e.getButton() == MouseEvent.NOBUTTON) {
+      if (!cell.isAlive()) {
+        cell.setNextState(CellStateVirusAlive.getInstance());
+      } else if (cell.getCurrState() == CellStateVirusInfected.getInstance()) {
+        cell.setNextState(CellStateDead.getInstance());
+      } else if (cell.isAlive()) {
+        cell.setNextState(CellStateVirusInfected.getInstance());
       }
+      cell.moveToNextState();
+      canvas.repaint();
+    }
   }
+
   /**
    * Mouse pressed event.
+   *
    * @param e The event information.
    */
   @Override
   public void mousePressed(MouseEvent e) {
   }
+
   /**
    * Mouse released event.
+   *
    * @param e The event information.
    */
   @Override
   public void mouseReleased(MouseEvent e) {
     //Do nothing.
   }
+
   /**
    * Mouse entered event.
+   *
    * @param e The event information.
    */
   @Override
   public void mouseEntered(MouseEvent e) {
     //Do nothing.
   }
+
   /**
    * Mouse exited event.
+   *
    * @param e The event information.
    */
   @Override
   public void mouseExited(MouseEvent e) {
     //Do nothing.
   }
+
   /**
    * The mouse dragged event.
+   *
    * @param e The event information.
    */
   @Override
   public void mouseDragged(MouseEvent e) {
     this.mouseClicked(e);
   }
+
   /**
    * The mouse moved event.
+   *
    * @param e The event information.
    */
   @Override
